@@ -1,0 +1,119 @@
+/* AnimatedBackground - Subtle Winter Christmas Theme */
+
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  /* Dark subtle base - more neutral with slight cool tint */
+  background: linear-gradient(
+    150deg,
+    #0d1117 0%,
+    #101820 40%,
+    #0d1117 60%,
+    #151a20 100%
+  );
+}
+
+.gradient-orbs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.25;
+  animation: float 25s ease-in-out infinite;
+}
+
+/* Soft deep blue orb - top right */
+.orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(30, 60, 90, 0.6) 0%, rgba(20, 40, 70, 0.3) 50%, transparent 70%);
+  top: -200px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+/* Subtle teal/green orb - bottom left */
+.orb-2 {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(20, 60, 50, 0.5) 0%, rgba(15, 45, 40, 0.25) 50%, transparent 70%);
+  bottom: -150px;
+  left: -120px;
+  animation-delay: -8s;
+  animation-duration: 28s;
+}
+
+/* Warm accent orb - subtle gold/amber center */
+.orb-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(120, 90, 50, 0.2) 0%, rgba(100, 70, 40, 0.1) 50%, transparent 70%);
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -15s;
+  animation-duration: 32s;
+}
+
+/* Deep burgundy accent - very subtle */
+.orb-4 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(60, 20, 30, 0.35) 0%, rgba(50, 15, 25, 0.15) 50%, transparent 70%);
+  bottom: 15%;
+  right: -80px;
+  animation-delay: -5s;
+  animation-duration: 24s;
+}
+
+/* Cool blue accent - top left */
+.orb-5 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(40, 80, 120, 0.3) 0%, rgba(30, 60, 90, 0.15) 50%, transparent 70%);
+  top: 15%;
+  left: -100px;
+  animation-delay: -12s;
+  animation-duration: 30s;
+}
+
+/* Soft white/frost glow - center top */
+.orb-6 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(200, 210, 220, 0.08) 0%, rgba(180, 190, 200, 0.04) 50%, transparent 70%);
+  top: 8%;
+  left: 45%;
+  animation-delay: -3s;
+  animation-duration: 35s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -25px) scale(1.03);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.97);
+  }
+  75% {
+    transform: translate(-25px, -15px) scale(1.02);
+  }
+}

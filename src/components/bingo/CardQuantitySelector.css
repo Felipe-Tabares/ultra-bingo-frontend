@@ -1,0 +1,382 @@
+/* CardQuantitySelector - Christmas Theme */
+
+.quantity-selector {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.selector-card {
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(20, 60, 30, 0.9), rgba(40, 20, 20, 0.9)) !important;
+  border: 2px solid rgba(200, 160, 60, 0.4) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Christmas decorative elements */
+.selector-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #c41e3a 0px,
+    #c41e3a 20px,
+    #228b22 20px,
+    #228b22 40px
+  );
+}
+
+.selector-card::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+}
+
+.selector-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Visual cards representation */
+.cards-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  padding: 1rem;
+}
+
+.visual-card {
+  width: 70px;
+  height: 90px;
+  background: linear-gradient(135deg, #c41e3a, #8b0000);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
+  border: 2px solid #ffd700;
+  position: relative;
+}
+
+.visual-card::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: #ffd700;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+.visual-card-inner {
+  font-size: 8px;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 2px;
+  margin-top: 10px;
+}
+
+.extra-count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  margin-left: 1rem;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Quantity controls */
+.quantity-controls {
+  text-align: center;
+  width: 100%;
+}
+
+.quantity-controls h3 {
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.fibonacci-note {
+  font-size: 0.85rem;
+  color: rgba(255, 215, 0, 0.7);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+/* Fibonacci grid selection */
+.fibonacci-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.fibonacci-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.5rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 215, 0, 0.25);
+  background: rgba(20, 40, 30, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fibonacci-btn:hover {
+  border-color: rgba(255, 215, 0, 0.6);
+  background: rgba(34, 139, 34, 0.3);
+  transform: translateY(-2px);
+}
+
+.fibonacci-btn.active {
+  background: linear-gradient(135deg, rgba(34, 139, 34, 0.6), rgba(0, 100, 0, 0.6));
+  border-color: #ffd700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.fib-number {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.fibonacci-btn.active .fib-number {
+  color: #ffd700;
+}
+
+.fib-price {
+  font-size: 0.7rem;
+  color: rgba(144, 238, 144, 0.8);
+  margin-top: 0.25rem;
+}
+
+/* Price display */
+.price-display {
+  width: 100%;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.price-breakdown {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.5rem;
+}
+
+.total-price {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.total-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.total-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.total-value .currency {
+  font-size: 1rem;
+  color: #90ee90;
+}
+
+.purchase-note {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Purchased cards display */
+.purchased-cards-display {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.purchased-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.success-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #228b22, #006400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  border: 3px solid #ffd700;
+  box-shadow: 0 0 20px rgba(34, 139, 34, 0.5);
+}
+
+.success-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: #ffd700;
+}
+
+.purchased-header h3 {
+  font-size: 1.75rem;
+  color: #ffd700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.purchased-header p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Mini cards grid */
+.purchased-cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.mini-card {
+  background: linear-gradient(135deg, rgba(196, 30, 58, 0.2), rgba(30, 30, 50, 0.9));
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  min-width: 220px;
+  max-width: 280px;
+}
+
+.mini-card-header {
+  text-align: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.mini-card-id {
+  font-size: 0.9rem;
+  color: #ffd700;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.mini-card-numbers {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.mini-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.mini-letter {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #c41e3a;
+  margin-bottom: 2px;
+}
+
+.mini-number {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  width: 32px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.mini-number.free {
+  background: linear-gradient(135deg, #228b22, #006400);
+  color: #ffd700;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .selector-card {
+    padding: 1.5rem;
+  }
+
+  .fibonacci-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .fibonacci-btn {
+    padding: 0.75rem 0.25rem;
+  }
+
+  .fib-number {
+    font-size: 1.25rem;
+  }
+
+  .fib-price {
+    font-size: 0.6rem;
+  }
+
+  .total-value {
+    font-size: 1.75rem;
+  }
+
+  .visual-card {
+    width: 55px;
+    height: 70px;
+  }
+
+  .purchased-cards-grid {
+    gap: 1rem;
+  }
+
+  .mini-card {
+    min-width: 200px;
+    padding: 0.75rem 1rem;
+  }
+
+  .mini-number {
+    width: 28px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+
+  .mini-letter {
+    font-size: 0.8rem;
+  }
+}

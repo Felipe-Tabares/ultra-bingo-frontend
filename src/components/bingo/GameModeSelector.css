@@ -1,0 +1,231 @@
+.game-mode-selector {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.current-mode-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.current-mode-display:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.mode-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mode-icon {
+  font-size: 1.5rem;
+}
+
+.mode-text {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.mode-value {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.expand-icon {
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.3s ease;
+}
+
+.current-mode-display:hover .expand-icon {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Game Mode Mini Card Styles */
+.gm-card-wrapper {
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+}
+
+.gm-card-wrapper:hover:not(.disabled) {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.gm-card-wrapper.active {
+  border-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.gm-card-wrapper.disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.gm-card {
+  width: 80px;
+}
+
+.gm-card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 4px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border-radius: 4px 4px 0 0;
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.gm-card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 2px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 4px 4px;
+}
+
+.gm-card-row {
+  display: flex;
+  gap: 1px;
+}
+
+.gm-card-cell {
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.gm-card-cell.highlighted {
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.gm-card-cell.free {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+.gm-card-info {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.gm-card-name {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.gm-active-indicator {
+  position: absolute;
+  inset: -2px;
+  border: 2px solid #8b5cf6;
+  border-radius: 14px;
+  pointer-events: none;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+}
+
+/* Mode Selector Panel */
+.mode-selector-panel {
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.mode-selector-card {
+  padding: 1.5rem !important;
+}
+
+.mode-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mode-selector-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.mode-locked {
+  font-size: 0.8rem;
+  color: #f59e0b;
+  padding: 0.25rem 0.75rem;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.mode-loading {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.mode-description {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.mode-description strong {
+  color: #8b5cf6;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .current-mode-display {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .mode-label {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gm-card {
+    width: 70px;
+  }
+
+  .gm-card-cell {
+    width: 12px;
+    height: 12px;
+  }
+}

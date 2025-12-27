@@ -1,0 +1,94 @@
+/* GlassCard - Christmas Theme */
+
+.glass-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.glass-card-border {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(196, 30, 58, 0.5) 0%,
+    rgba(255, 215, 0, 0.3) 50%,
+    rgba(34, 139, 34, 0.5) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-card-content {
+  position: relative;
+  background: linear-gradient(135deg, rgba(20, 30, 20, 0.85), rgba(30, 20, 20, 0.85));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: inherit;
+  padding: 1.5rem;
+  z-index: 0;
+}
+
+.glass-card-glow {
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 215, 0, 0.1) 0%,
+    rgba(196, 30, 58, 0.05) 25%,
+    transparent 50%
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* Hover effects */
+.glass-card.hoverable {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card.hoverable:hover {
+  box-shadow:
+    0 10px 40px rgba(196, 30, 58, 0.2),
+    0 0 0 1px rgba(255, 215, 0, 0.3);
+}
+
+.glass-card.hoverable:hover .glass-card-border {
+  background: linear-gradient(
+    135deg,
+    rgba(196, 30, 58, 0.8) 0%,
+    rgba(255, 215, 0, 0.5) 50%,
+    rgba(34, 139, 34, 0.8) 100%
+  );
+}
+
+/* Glowing variant */
+.glass-card.glowing .glass-card-glow {
+  opacity: 1;
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.glass-card.glowing:hover .glass-card-glow {
+  opacity: 1;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}

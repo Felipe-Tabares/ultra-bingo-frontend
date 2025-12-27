@@ -1,0 +1,1275 @@
+/* BingoLive - Christmas Theme */
+
+.bingo-live {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bingo-live-content {
+  position: relative;
+  z-index: 10;
+  padding-top: 2rem;
+  padding-bottom: 140px;
+}
+
+/* Connection Status */
+.connection-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1.25rem;
+  background: linear-gradient(135deg, rgba(20, 35, 20, 0.9), rgba(40, 20, 20, 0.9));
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(10px);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff4444;
+}
+
+.connection-status.connected .status-dot {
+  background: #00ff88;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
+.connection-status.connected {
+  border-color: rgba(144, 238, 144, 0.4);
+}
+
+/* Current Number Section */
+.current-number-section {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.current-number-section h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1.5rem;
+}
+
+.current-number-display {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+/* Status Cards */
+.status-card {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.status-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.5rem;
+  color: #ffd700;
+}
+
+.status-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.status-card h3 {
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.status-card p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+.status-card.waiting .status-icon {
+  color: #ffd700;
+}
+
+.status-card.paused {
+  border-color: rgba(255, 170, 0, 0.4);
+}
+
+.status-card.paused .status-icon {
+  color: #ffaa00;
+}
+
+.status-card.ended {
+  border-color: rgba(144, 238, 144, 0.4);
+}
+
+.winner-celebration {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.status-card.ended h3 {
+  color: #90ee90;
+  font-size: 1.75rem;
+}
+
+.winner-name {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.winner-name span {
+  color: #ffd700;
+  font-weight: 700;
+}
+
+/* Section Headers */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.section-icon {
+  font-size: 1.5rem;
+}
+
+.numbers-count {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.numbers-count span:first-child {
+  font-size: 1.5rem;
+  color: #ffd700;
+}
+
+.numbers-count span:last-child {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.cards-count {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+/* Called Numbers Section */
+.called-numbers-section {
+  margin-bottom: 3rem;
+}
+
+.numbers-board-card {
+  overflow-x: auto;
+}
+
+.numbers-board {
+  display: flex;
+  gap: 0.5rem;
+  min-width: 100%;
+  padding: 0.5rem;
+}
+
+.numbers-column {
+  flex: 1;
+  min-width: 55px;
+}
+
+/* Christmas BINGO column colors */
+.column-header {
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #fff;
+  padding: 0.75rem 0.5rem;
+  border-radius: 10px 10px 0 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.column-numbers {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.number-cell {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(20, 35, 20, 0.6);
+  color: rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.number-cell.called {
+  color: #fff;
+  font-weight: 700;
+}
+
+.number-cell.current {
+  font-weight: 800;
+  animation: currentPulse 1s ease-in-out infinite;
+}
+
+@keyframes currentPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* My Cards Section */
+.my-cards-section {
+  margin-bottom: 3rem;
+}
+
+.my-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Loading State */
+.loading-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+.loading-spinner {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.loading-state p {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* No Cards Message */
+.no-cards-message {
+  text-align: center;
+  padding: 3rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.no-cards-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.no-cards-message p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.5rem;
+}
+
+.buy-cards-btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 2px solid #ffd700;
+  box-shadow: 0 4px 20px rgba(196, 30, 58, 0.4);
+  transition: all 0.3s ease;
+}
+
+.buy-cards-btn:hover {
+  box-shadow: 0 6px 30px rgba(255, 215, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Recent Numbers Panel - Christmas Theme */
+.recent-numbers {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(
+    to top,
+    rgba(20, 35, 20, 0.98) 0%,
+    rgba(40, 20, 20, 0.95) 100%
+  );
+  border-top: 1px solid rgba(255, 215, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1rem 1.5rem;
+  box-shadow:
+    0 -10px 40px rgba(0, 0, 0, 0.5),
+    0 -2px 20px rgba(255, 215, 0, 0.1);
+}
+
+.recent-numbers::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #c41e3a 0px,
+    #c41e3a 15px,
+    #228b22 15px,
+    #228b22 30px,
+    #ffd700 30px,
+    #ffd700 45px
+  );
+  animation: lights-move 3s linear infinite;
+}
+
+@keyframes lights-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 45px 0; }
+}
+
+.recent-numbers-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.recent-numbers-header h3 {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #c41e3a;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #c41e3a;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(196, 30, 58, 0.6);
+}
+
+.recent-numbers-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Game Mode Section */
+.game-mode-section {
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+}
+
+/* Admin Controls - Christmas Theme */
+.admin-controls-section {
+  margin-bottom: 2rem;
+}
+
+.admin-controls-card {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border: 2px solid rgba(255, 215, 0, 0.4) !important;
+  background: linear-gradient(135deg, rgba(20, 35, 20, 0.95) 0%, rgba(40, 20, 20, 0.95) 100%) !important;
+}
+
+.admin-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffd700;
+}
+
+.admin-icon {
+  font-size: 1.5rem;
+}
+
+.admin-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.admin-btn.start-btn,
+.admin-btn.resume-btn {
+  background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+  color: #fff;
+  border: 2px solid #ffd700;
+  box-shadow: 0 4px 20px rgba(34, 139, 34, 0.4);
+}
+
+.admin-btn.start-btn:hover,
+.admin-btn.resume-btn:hover {
+  box-shadow: 0 6px 30px rgba(255, 215, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.admin-btn.pause-btn {
+  background: linear-gradient(135deg, #ffd700 0%, #daa520 100%);
+  color: #000;
+  border: 2px solid #ffd700;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+}
+
+.admin-btn.pause-btn:hover {
+  box-shadow: 0 6px 30px rgba(255, 215, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.admin-btn.end-btn {
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  color: #fff;
+  border: 2px solid #ffd700;
+  box-shadow: 0 4px 20px rgba(196, 30, 58, 0.4);
+}
+
+.admin-btn.end-btn:hover {
+  box-shadow: 0 6px 30px rgba(255, 215, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.admin-btn.clear-btn {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: #fff;
+  border: 2px solid #adb5bd;
+  box-shadow: 0 4px 20px rgba(108, 117, 125, 0.4);
+}
+
+.admin-btn.clear-btn:hover {
+  box-shadow: 0 6px 30px rgba(173, 181, 189, 0.5);
+  transform: translateY(-2px);
+}
+
+.admin-hint {
+  text-align: center;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+/* Clickable number cells for admin */
+.number-cell.clickable {
+  cursor: pointer;
+  border: 1px dashed rgba(255, 215, 0, 0.5);
+}
+
+.number-cell.clickable:hover {
+  border-color: rgba(255, 215, 0, 1);
+  background: rgba(255, 215, 0, 0.2) !important;
+}
+
+/* ===== BINGO ALERT - Visible to everyone ===== */
+.bingo-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.bingo-alert {
+  background: linear-gradient(135deg, rgba(20, 60, 30, 0.98) 0%, rgba(40, 20, 20, 0.98) 100%);
+  border: 3px solid #ffd700;
+  border-radius: 24px;
+  padding: 2.5rem 3rem;
+  text-align: center;
+  max-width: 450px;
+  box-shadow:
+    0 0 60px rgba(255, 215, 0, 0.4),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.bingo-alert-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.bingo-alert h2 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #ffd700;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.bingo-alert p {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.bingo-alert p strong {
+  color: #90ee90;
+}
+
+.bingo-alert-sub {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+/* ===== Admin Winners Panel ===== */
+.admin-winners-panel {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 100, 100, 0.1) 100%);
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.winners-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: #ffd700;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.winners-icon {
+  font-size: 1.25rem;
+}
+
+.winners-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.winner-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.winner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.winner-username {
+  font-weight: 700;
+  color: #90ee90;
+  font-size: 1rem;
+}
+
+.winner-card {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: monospace;
+}
+
+.winner-pattern {
+  font-size: 0.75rem;
+  color: #ffd700;
+  text-transform: uppercase;
+}
+
+.verify-winner-btn {
+  background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+  color: #fff;
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.verify-winner-btn:hover {
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .bingo-live-content {
+    padding-top: 1rem;
+    padding-bottom: 160px;
+  }
+
+  .numbers-board {
+    gap: 0.25rem;
+  }
+
+  .numbers-column {
+    min-width: 48px;
+  }
+
+  .column-header {
+    font-size: 1rem;
+    padding: 0.5rem 0.25rem;
+  }
+
+  .number-cell {
+    padding: 0.35rem;
+    font-size: 0.8rem;
+  }
+
+  .my-cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .recent-numbers {
+    padding: 1rem;
+  }
+
+  .recent-numbers-list {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .numbers-column {
+    min-width: 42px;
+  }
+
+  .column-header {
+    font-size: 0.9rem;
+  }
+
+  .number-cell {
+    padding: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .current-number-section h2 {
+    font-size: 0.85rem;
+  }
+
+  .status-card {
+    padding: 1.5rem;
+  }
+
+  .status-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .admin-controls-card {
+    padding: 1rem;
+  }
+
+  .admin-badge {
+    font-size: 0.95rem;
+  }
+
+  .admin-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .admin-hint {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== NEW: Continue Game Banner ===== */
+.continue-game-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 500;
+  background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+  border: 3px solid #ffd700;
+  border-radius: 20px;
+  padding: 1.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  box-shadow:
+    0 0 60px rgba(34, 139, 34, 0.6),
+    0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.continue-game-banner .continue-icon {
+  font-size: 2rem;
+  color: #ffd700;
+}
+
+.continue-game-banner span:last-child {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== NEW: Official Winner Banner ===== */
+.winner-banner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.winner-banner {
+  position: relative;
+  background: linear-gradient(135deg, rgba(20, 60, 30, 0.98) 0%, rgba(40, 20, 20, 0.98) 100%);
+  border: 4px solid #ffd700;
+  border-radius: 24px;
+  padding: 3rem 4rem;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  box-shadow:
+    0 0 100px rgba(255, 215, 0, 0.5),
+    0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.winner-banner-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.winner-banner-close:hover {
+  background: rgba(255, 68, 68, 0.8);
+  border-color: #ff4444;
+  transform: scale(1.1);
+}
+
+.winner-banner-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+
+.winner-banner h2 {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #ffd700;
+  text-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.15em;
+}
+
+.winner-banner .winner-name {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.winner-banner .winner-name strong {
+  color: #90ee90;
+}
+
+.winner-banner .winner-wallet {
+  font-family: monospace;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.winner-banner .winner-pattern {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.winner-banner .winner-pattern strong {
+  color: #ffd700;
+}
+
+.winner-banner .winner-card-id {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== NEW: Potential Winners Sidebar ===== */
+.potential-winners-sidebar {
+  background: linear-gradient(135deg, rgba(255, 50, 50, 0.15) 0%, rgba(255, 215, 0, 0.1) 100%);
+  border: 3px solid #ff4444;
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: #ff4444;
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+  }
+  50% {
+    border-color: #ffd700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+  }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.sidebar-icon {
+  font-size: 1.75rem;
+}
+
+.sidebar-header > span:nth-child(2) {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #ffd700;
+}
+
+.paused-badge {
+  background: #ff4444;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.potential-winner-card {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.potential-winner-card:last-child {
+  margin-bottom: 0;
+}
+
+.pw-info h4 {
+  color: #90ee90;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pw-card-id {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.25rem;
+  word-break: break-all;
+}
+
+.pw-pattern {
+  color: #ffd700;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.pw-wallet {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.pw-card-preview {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.pw-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.pw-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pw-btn.pw-accept {
+  background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+  color: #fff;
+  border: 2px solid #ffd700;
+}
+
+.pw-btn.pw-accept:hover {
+  box-shadow: 0 4px 20px rgba(34, 139, 34, 0.5);
+  transform: translateY(-2px);
+}
+
+.pw-btn.pw-reject {
+  background: linear-gradient(135deg, #666 0%, #333 100%);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.pw-btn.pw-reject:hover {
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  border-color: #ff4444;
+  box-shadow: 0 4px 20px rgba(196, 30, 58, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ===== NEW: Admin Card Search ===== */
+.admin-card-search {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-card-search h4 {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: monospace;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ffd700;
+}
+
+.search-btn {
+  padding: 0.6rem 1rem;
+  background: linear-gradient(135deg, #ffd700 0%, #daa520 100%);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.search-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.search-error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
+/* Search Result */
+.search-result {
+  margin-top: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.search-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-result-header h5 {
+  color: #ffd700;
+  font-size: 1rem;
+}
+
+.close-search {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-search:hover {
+  color: #ff6b6b;
+}
+
+.search-result-content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.search-result-card {
+  max-width: 180px;
+}
+
+.search-result-info {
+  font-size: 0.85rem;
+}
+
+.search-result-info p {
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.search-result-info strong {
+  color: #ffd700;
+}
+
+.search-winner-badge {
+  background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+  color: #fff !important;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.verify-search-result-btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+  color: #fff;
+  border: 2px solid #ffd700;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.verify-search-result-btn:hover {
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ===== Winners History Section ===== */
+.winners-history-section {
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+@media (min-width: 1200px) {
+  .winners-history-section {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 320px;
+    z-index: 50;
+  }
+}
+
+@media (max-width: 1199px) {
+  .winners-history-section {
+    max-width: 100%;
+  }
+}
+
+/* ===== Users History Section (Admin Only - Right Side) ===== */
+.users-history-section {
+  max-width: 320px;
+  margin: 0 auto 2rem;
+}
+
+@media (min-width: 1200px) {
+  .users-history-section {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 320px;
+    z-index: 50;
+  }
+}
+
+@media (max-width: 1199px) {
+  .users-history-section {
+    max-width: 100%;
+  }
+}
+
+/* Responsive for new components */
+@media (max-width: 768px) {
+  .continue-game-banner {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem 2rem;
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .continue-game-banner span:last-child {
+    font-size: 1.2rem;
+  }
+
+  .winner-banner {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .winner-banner h2 {
+    font-size: 2.5rem;
+  }
+
+  .winner-banner-icon {
+    font-size: 3.5rem;
+  }
+
+  .winner-banner .winner-name {
+    font-size: 1.2rem;
+  }
+
+  .winner-banner .winner-wallet {
+    font-size: 0.85rem;
+  }
+
+  .search-result-content {
+    grid-template-columns: 1fr;
+  }
+
+  .search-result-card {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pw-actions {
+    flex-direction: column;
+  }
+}

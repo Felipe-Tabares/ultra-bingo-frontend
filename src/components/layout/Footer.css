@@ -1,0 +1,178 @@
+/* Footer - Christmas Theme */
+
+.footer {
+  position: relative;
+  z-index: 10;
+  margin-top: auto;
+  padding: 2.5rem 0 0;
+  background: linear-gradient(135deg, rgb(15, 30, 15), rgb(35, 15, 15));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Christmas lights top border */
+.footer-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #c41e3a 0px,
+    #c41e3a 15px,
+    #228b22 15px,
+    #228b22 30px,
+    #ffd700 30px,
+    #ffd700 45px
+  );
+  animation: lights-move 3s linear infinite;
+}
+
+@keyframes lights-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 45px 0; }
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Brand */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.footer-logo .highlight {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 320px;
+}
+
+/* Links */
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  background: rgba(196, 30, 58, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ffd700;
+  background: rgba(196, 30, 58, 0.25);
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.link-icon {
+  font-size: 1rem;
+}
+
+.link-icon-svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Powered by */
+.footer-powered {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.powered-text {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.powered-x402 {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #ffd700;
+  padding: 0.3rem 0.75rem;
+  background: rgba(196, 30, 58, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.powered-x402:hover {
+  background: rgba(196, 30, 58, 0.3);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+/* Bottom section */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 215, 0, 0.1);
+  padding: 1rem 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.footer-bottom p {
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .footer-brand {
+    align-items: center;
+  }
+
+  .footer-tagline {
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .footer-link {
+    justify-content: center;
+  }
+
+  .footer-powered {
+    justify-content: center;
+  }
+}

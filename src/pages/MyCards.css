@@ -1,0 +1,309 @@
+/* MyCards Page - Epic Animated Design */
+
+.my-cards-page {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.my-cards-content {
+  position: relative;
+  z-index: 10;
+  padding: 2rem 0 4rem;
+}
+
+/* Header */
+.my-cards-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header-badge {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.header-badge span {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, rgba(106, 0, 255, 0.2) 0%, rgba(138, 43, 226, 0.2) 100%);
+  border: 1px solid rgba(106, 0, 255, 0.4);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b380ff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+.my-cards-header h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff 0%, #b380ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.my-cards-header p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+}
+
+/* Auth Required Card */
+.auth-required {
+  text-align: center;
+  padding: 3rem;
+  max-width: 500px;
+  margin: 4rem auto;
+}
+
+.auth-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  color: #6a00ff;
+  background: rgba(106, 0, 255, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.auth-required h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #fff;
+}
+
+.auth-required p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.5rem;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* No Cards */
+.no-cards {
+  text-align: center;
+  padding: 3rem;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.no-cards h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #fff;
+}
+
+.no-cards p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.5rem;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Stats Bar */
+.cards-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem !important;
+}
+
+.stat-icon {
+  font-size: 1.5rem;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-card.status .stat-value {
+  color: #00ff88;
+}
+
+/* Cards Grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Error Message */
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 50, 50, 0.15);
+  border: 1px solid rgba(255, 50, 50, 0.4);
+  border-radius: 12px;
+  color: #ff6b6b;
+  margin-bottom: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-icon {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  background: rgba(255, 50, 50, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* CTA Section */
+.cta-section {
+  margin-top: 3rem;
+}
+
+.cta-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem;
+}
+
+.cta-text h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.cta-text p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+/* Skeleton */
+.bingo-card-skeleton {
+  background: linear-gradient(135deg, rgba(20, 20, 35, 0.9) 0%, rgba(30, 20, 50, 0.9) 100%);
+  border: 1px solid rgba(106, 0, 255, 0.2);
+  border-radius: 16px;
+  height: 350px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .my-cards-content {
+    padding: 1rem 0 3rem;
+  }
+
+  .my-cards-header h1 {
+    font-size: 2rem;
+  }
+
+  .cards-stats {
+    grid-template-columns: 1fr;
+    max-width: 300px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 350px;
+  }
+
+  .cta-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .cta-text {
+    text-align: center;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-buttons a {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-required,
+  .no-cards {
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .auth-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+  }
+}

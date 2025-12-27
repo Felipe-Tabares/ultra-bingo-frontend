@@ -1,0 +1,674 @@
+/* Home Page - Christmas Theme */
+
+.home {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 0 4rem;
+  overflow: hidden;
+}
+
+.hero-content {
+  text-align: center;
+  z-index: 10;
+  max-width: 800px;
+  padding: 0 1.5rem;
+}
+
+/* Hero Badge */
+.hero-badge {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.hero-badge span {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, rgba(196, 30, 58, 0.2) 0%, rgba(34, 139, 34, 0.2) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffd700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+/* Hero Title */
+.hero-title {
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.title-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.christmas-emoji {
+  font-size: 0.7em;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.title-highlight {
+  color: #ffd700;
+  text-shadow:
+    0 0 20px rgba(255, 215, 0, 0.5),
+    0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+/* Hero Subtitle */
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+/* Hero Stats */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.5rem 2.5rem;
+  background: linear-gradient(135deg, rgba(20, 35, 20, 0.8), rgba(40, 20, 20, 0.8));
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 50%, #90ee90 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 215, 0, 0.5),
+    transparent
+  );
+}
+
+/* ===== FLOATING DECORATIONS ===== */
+.hero-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-ball {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-ball.ball-1 {
+  top: 15%;
+  left: 10%;
+}
+
+.floating-ball.ball-2 {
+  top: 25%;
+  right: 12%;
+}
+
+.floating-ball.ball-3 {
+  top: 60%;
+  left: 8%;
+}
+
+.floating-ball.ball-4 {
+  bottom: 20%;
+  right: 15%;
+}
+
+.floating-ball.ball-5 {
+  top: 70%;
+  right: 25%;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  position: relative;
+  z-index: 10;
+  padding-bottom: 120px;
+}
+
+/* ===== AUTH SECTION ===== */
+.auth-section {
+  margin-bottom: 3rem;
+}
+
+.auth-card {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.auth-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.auth-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, rgba(196, 30, 58, 0.3) 0%, rgba(34, 139, 34, 0.3) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.auth-icon svg {
+  width: 32px;
+  height: 32px;
+  color: #ffd700;
+}
+
+.auth-text h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.auth-text p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  max-width: 400px;
+}
+
+/* ===== ERROR MESSAGE ===== */
+/* Payment Status */
+.payment-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(196, 30, 58, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 12px;
+  color: #ffd700;
+  margin-bottom: 1rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 600;
+}
+
+.payment-status.success {
+  background: rgba(34, 139, 34, 0.2);
+  border-color: rgba(144, 238, 144, 0.4);
+  color: #90ee90;
+}
+
+.status-spinner {
+  font-size: 1.25rem;
+  display: inline-block;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 50, 50, 0.15);
+  border: 1px solid rgba(255, 50, 50, 0.4);
+  border-radius: 12px;
+  color: #ff6b6b;
+  margin-bottom: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-icon {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  background: rgba(255, 50, 50, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* ===== CARDS SECTION ===== */
+.cards-section {
+  margin-top: 2rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.section-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-number {
+  font-size: 0.9rem;
+  color: #ffd700;
+  font-weight: 800;
+  padding: 0.25rem 0.5rem;
+  background: rgba(196, 30, 58, 0.2);
+  border-radius: 6px;
+}
+
+.section-description {
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Cards Grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* No Cards State */
+.no-cards {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+}
+
+.no-cards p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.1rem;
+}
+
+/* Skeleton */
+.bingo-card-skeleton {
+  background: linear-gradient(135deg, rgba(20, 35, 20, 0.9) 0%, rgba(40, 20, 20, 0.9) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 16px;
+  height: 320px;
+}
+
+/* ===== PURCHASE BAR ===== */
+.purchase-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(
+    to top,
+    rgba(20, 35, 20, 0.98) 0%,
+    rgba(40, 20, 20, 0.95) 100%
+  );
+  border-top: 1px solid rgba(255, 215, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 -10px 40px rgba(0, 0, 0, 0.5),
+    0 -2px 20px rgba(255, 215, 0, 0.1);
+}
+
+.purchase-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(196, 30, 58, 0.6),
+    rgba(255, 215, 0, 0.6),
+    transparent
+  );
+}
+
+.purchase-bar-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.purchase-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.purchase-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.count-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffd700;
+  min-width: 40px;
+  text-align: center;
+}
+
+.count-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.purchase-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+}
+
+.price-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.price-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.price-value .currency {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+}
+
+/* Gradient text utility - Christmas colors */
+.gradient-text {
+  background: linear-gradient(90deg, #c41e3a, #ffd700, #228b22, #c41e3a);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s ease infinite;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 70vh;
+    padding: 4rem 0 3rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .christmas-emoji {
+    font-size: 0.5em;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem 2rem;
+  }
+
+  .stat-divider {
+    width: 80px;
+    height: 1px;
+  }
+
+  .floating-ball {
+    width: 50px;
+    height: 50px;
+    font-size: 1.8rem;
+  }
+
+  .floating-ball.ball-1 { left: 5%; }
+  .floating-ball.ball-2 { right: 5%; }
+  .floating-ball.ball-3 { left: 3%; }
+  .floating-ball.ball-4 { right: 8%; }
+  .floating-ball.ball-5 { right: 15%; }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 350px;
+  }
+
+  .purchase-bar-content {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .purchase-info {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .purchase-count {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .count-number {
+    font-size: 1.5rem;
+    min-width: auto;
+  }
+
+  .purchase-bar button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-badge span {
+    font-size: 0.75rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .hero-stats {
+    padding: 1rem 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .auth-card-content {
+    padding: 1.5rem;
+  }
+
+  .auth-text h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ===== GAME IN PROGRESS ALERT ===== */
+.game-in-progress-alert {
+  margin-bottom: 2rem;
+}
+
+.game-alert-card {
+  border-color: rgba(255, 170, 0, 0.5) !important;
+  background: linear-gradient(135deg, rgba(60, 40, 10, 0.95) 0%, rgba(40, 20, 10, 0.95) 100%) !important;
+}
+
+.game-alert-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  gap: 1rem;
+}
+
+.game-alert-icon {
+  font-size: 3rem;
+}
+
+.game-alert-text h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffa500;
+  margin-bottom: 0.5rem;
+}
+
+.game-alert-text p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.game-alert-text .game-alert-sub {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+.watch-game-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 2px solid #ffd700;
+  box-shadow: 0 4px 20px rgba(34, 139, 34, 0.4);
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.watch-game-btn:hover {
+  box-shadow: 0 6px 30px rgba(255, 215, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Cards Section Disabled State */
+.cards-section.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(0.3);
+}
+
+@media (max-width: 768px) {
+  .game-alert-content {
+    padding: 1rem;
+  }
+
+  .game-alert-icon {
+    font-size: 2.5rem;
+  }
+
+  .game-alert-text h3 {
+    font-size: 1.25rem;
+  }
+
+  .game-alert-text p {
+    font-size: 0.9rem;
+  }
+}
