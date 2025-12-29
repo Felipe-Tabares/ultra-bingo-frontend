@@ -22,6 +22,8 @@ export function SocketProvider({ children }) {
   const continueMessageTimeoutRef = useRef(null);
   const reconnectTimeoutRef = useRef(null);
   const reconnectAttemptsRef = useRef(0);
+  const socketRef = useRef(null);
+  const isConnectingRef = useRef(false);
   const maxReconnectAttempts = 5;
 
   // Get auth info from localStorage
@@ -181,6 +183,20 @@ export function SocketProvider({ children }) {
 
   // Create WebSocket connection
   const createConnection = useCallback(() => {
+    // Prevent multiple simultaneous connections
+    if (isConnectingRef.current) {
+      console.log('WebSocket connection already in progress');
+      return socketRef.current;
+    }
+
+    // Close existing connection if any
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      console.log('Closing existing WebSocket connection');
+      socketRef.current.close();
+    }
+
+    isConnectingRef.current = true;
+
     const { token } = getAuthInfo();
 
     // Build WebSocket URL with auth token as query param
@@ -189,10 +205,13 @@ export function SocketProvider({ children }) {
       wsUrl += `?token=${encodeURIComponent(token)}`;
     }
 
+    console.log('Creating new WebSocket connection');
     const ws = new WebSocket(wsUrl);
+    socketRef.current = ws;
 
     ws.onopen = () => {
       console.log('WebSocket connected');
+      isConnectingRef.current = false;
       setIsConnected(true);
       reconnectAttemptsRef.current = 0;
 
@@ -205,7 +224,9 @@ export function SocketProvider({ children }) {
 
     ws.onclose = (event) => {
       console.log('WebSocket disconnected:', event.code, event.reason);
+      isConnectingRef.current = false;
       setIsConnected(false);
+      socketRef.current = null;
 
       // Attempt to reconnect if not intentionally closed
       if (reconnectAttemptsRef.current < maxReconnectAttempts) {
@@ -220,6 +241,7 @@ export function SocketProvider({ children }) {
 
     ws.onerror = (error) => {
       console.error('WebSocket error:', error);
+      isConnectingRef.current = false;
     };
 
     ws.onmessage = handleMessage;
