@@ -1,6 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { io } from 'socket.io-client';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { injected } from 'wagmi/connectors';
 import { NumberBall, BingoCard } from '../components/bingo';
@@ -20,12 +19,16 @@ function Admin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [socket, setSocket] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
   const [gameState, setGameState] = useState({
     status: 'waiting',
     calledNumbers: [],
     currentNumber: null,
   });
   const [availableNumbers, setAvailableNumbers] = useState(ALL_NUMBERS);
+  const reconnectTimeoutRef = useRef(null);
+  const reconnectAttemptsRef = useRef(0);
+  const maxReconnectAttempts = 5;
 
   // Card Search State
   const [cardSearchQuery, setCardSearchQuery] = useState('');
@@ -50,43 +53,137 @@ function Admin() {
     }
   }, []);
 
-  // Connect to socket when authenticated
+  // Handle WebSocket messages
+  const handleMessage = useCallback((event) => {
+    try {
+      const data = JSON.parse(event.data);
+      const { type, payload } = data;
+
+      switch (type) {
+        case 'game-state':
+          setGameState(payload);
+          updateAvailableNumbers(payload.calledNumbers || []);
+          break;
+
+        case 'number-called':
+          setGameState((prev) => ({
+            ...prev,
+            currentNumber: payload.number,
+            calledNumbers: [...(prev.calledNumbers || []), payload.number],
+          }));
+          setAvailableNumbers((prev) => prev.filter((n) => n !== payload.number));
+          break;
+
+        case 'game-started':
+          setGameState((prev) => ({
+            ...prev,
+            status: 'playing',
+            calledNumbers: [],
+            currentNumber: null,
+          }));
+          setAvailableNumbers(ALL_NUMBERS);
+          break;
+
+        case 'game-paused':
+          setGameState((prev) => ({ ...prev, status: 'paused' }));
+          break;
+
+        case 'game-resumed':
+          setGameState((prev) => ({ ...prev, status: 'playing' }));
+          break;
+
+        case 'game-ended':
+          setGameState((prev) => ({ ...prev, status: 'ended' }));
+          break;
+
+        case 'game-cleared':
+          setGameState({
+            status: 'waiting',
+            calledNumbers: [],
+            currentNumber: null,
+          });
+          setAvailableNumbers(ALL_NUMBERS);
+          break;
+
+        default:
+          console.log('Unknown message type:', type);
+      }
+    } catch (e) {
+      console.error('Error parsing WebSocket message:', e);
+    }
+  }, []);
+
+  // Create WebSocket connection
+  const createConnection = useCallback(() => {
+    const adminToken = localStorage.getItem('admin-token');
+    if (!adminToken) return null;
+
+    let wsUrl = config.wsUrl;
+    wsUrl += `?token=${encodeURIComponent(adminToken)}`;
+
+    const ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+      console.log('Admin WebSocket connected');
+      setIsConnected(true);
+      reconnectAttemptsRef.current = 0;
+
+      // Join default game room
+      ws.send(JSON.stringify({
+        action: 'join-game',
+        gameId: 'default'
+      }));
+    };
+
+    ws.onclose = (event) => {
+      console.log('Admin WebSocket disconnected:', event.code);
+      setIsConnected(false);
+
+      // Attempt to reconnect
+      if (reconnectAttemptsRef.current < maxReconnectAttempts) {
+        const delay = Math.min(1000 * Math.pow(2, reconnectAttemptsRef.current), 30000);
+        reconnectAttemptsRef.current++;
+        reconnectTimeoutRef.current = setTimeout(() => {
+          createConnection();
+        }, delay);
+      }
+    };
+
+    ws.onerror = (error) => {
+      console.error('Admin WebSocket error:', error);
+    };
+
+    ws.onmessage = handleMessage;
+
+    setSocket(ws);
+    return ws;
+  }, [handleMessage]);
+
+  // Connect to WebSocket when authenticated
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    const adminToken = localStorage.getItem('admin-token');
-    const newSocket = io(config.wsUrl, {
-      auth: { token: adminToken, isAdmin: true },
-    });
+    const ws = createConnection();
 
-    newSocket.on('connect', () => {
-      console.log('Admin socket connected');
-    });
-
-    newSocket.on('game-state', (state) => {
-      setGameState(state);
-      updateAvailableNumbers(state.calledNumbers);
-    });
-
-    newSocket.on('number-called', (data) => {
-      setGameState((prev) => ({
-        ...prev,
-        currentNumber: data.number,
-        calledNumbers: [...prev.calledNumbers, data.number],
-      }));
-      setAvailableNumbers((prev) => prev.filter((n) => n !== data.number));
-    });
-
-    setSocket(newSocket);
-
-    // SECURITY: Cleanup all listeners to prevent memory leaks
     return () => {
-      newSocket.off('connect');
-      newSocket.off('game-state');
-      newSocket.off('number-called');
-      newSocket.close();
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      reconnectAttemptsRef.current = maxReconnectAttempts;
+      if (ws) {
+        ws.close();
+      }
     };
-  }, [isAuthenticated]);
+  }, [isAuthenticated, createConnection]);
+
+  // Helper to send WebSocket messages
+  const sendMessage = useCallback((action, payload = {}) => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ action, ...payload }));
+    } else {
+      console.warn('WebSocket not connected');
+    }
+  }, [socket]);
 
   const validateToken = async (token) => {
     try {
@@ -148,6 +245,9 @@ function Admin() {
   const handleLogout = () => {
     localStorage.removeItem('admin-token');
     setIsAuthenticated(false);
+    if (socket) {
+      socket.close();
+    }
     setSocket(null);
     navigate('/');
   };
@@ -158,49 +258,49 @@ function Admin() {
 
   // Game controls with loading feedback
   const startGame = useCallback(() => {
-    if (socket && !controlsLoading.start) {
+    if (!controlsLoading.start) {
       setControlsLoading((prev) => ({ ...prev, start: true }));
-      socket.emit('admin:start-game');
+      sendMessage('admin-start-game');
       setGameState((prev) => ({ ...prev, status: 'playing', calledNumbers: [], currentNumber: null }));
       setAvailableNumbers(ALL_NUMBERS);
       setTimeout(() => setControlsLoading((prev) => ({ ...prev, start: false })), 500);
     }
-  }, [socket, controlsLoading.start]);
+  }, [sendMessage, controlsLoading.start]);
 
   const pauseGame = useCallback(() => {
-    if (socket && !controlsLoading.pause) {
+    if (!controlsLoading.pause) {
       setControlsLoading((prev) => ({ ...prev, pause: true }));
-      socket.emit('admin:pause-game');
+      sendMessage('admin-pause-game');
       setGameState((prev) => ({ ...prev, status: 'paused' }));
       setTimeout(() => setControlsLoading((prev) => ({ ...prev, pause: false })), 500);
     }
-  }, [socket, controlsLoading.pause]);
+  }, [sendMessage, controlsLoading.pause]);
 
   const resumeGame = useCallback(() => {
-    if (socket && !controlsLoading.resume) {
+    if (!controlsLoading.resume) {
       setControlsLoading((prev) => ({ ...prev, resume: true }));
-      socket.emit('admin:resume-game');
+      sendMessage('admin-resume-game');
       setGameState((prev) => ({ ...prev, status: 'playing' }));
       setTimeout(() => setControlsLoading((prev) => ({ ...prev, resume: false })), 500);
     }
-  }, [socket, controlsLoading.resume]);
+  }, [sendMessage, controlsLoading.resume]);
 
   const endGame = useCallback(() => {
-    if (socket && !controlsLoading.end && window.confirm('¿Estás seguro de terminar el juego?')) {
+    if (!controlsLoading.end && window.confirm('¿Estás seguro de terminar el juego?')) {
       setControlsLoading((prev) => ({ ...prev, end: true }));
-      socket.emit('admin:end-game');
+      sendMessage('admin-end-game');
       setGameState((prev) => ({ ...prev, status: 'ended' }));
       setTimeout(() => setControlsLoading((prev) => ({ ...prev, end: false })), 500);
     }
-  }, [socket, controlsLoading.end]);
+  }, [sendMessage, controlsLoading.end]);
 
   const callNumber = useCallback((number) => {
-    if (socket && gameState.status === 'playing' && !controlsLoading.callNumber) {
+    if (gameState.status === 'playing' && !controlsLoading.callNumber) {
       setControlsLoading((prev) => ({ ...prev, callNumber: true }));
-      socket.emit('admin:call-number', { number });
+      sendMessage('admin-call-number', { number });
       setTimeout(() => setControlsLoading((prev) => ({ ...prev, callNumber: false })), 300);
     }
-  }, [socket, gameState.status, controlsLoading.callNumber]);
+  }, [sendMessage, gameState.status, controlsLoading.callNumber]);
 
   const callRandomNumber = useCallback(() => {
     if (availableNumbers.length > 0 && gameState.status === 'playing' && !controlsLoading.callNumber) {
@@ -261,10 +361,10 @@ function Admin() {
 
   // Verify winner from selected card
   const handleVerifySelectedCard = useCallback(() => {
-    if (socket && selectedCard) {
-      socket.emit('admin:verify-winner', { cardId: selectedCard.card.id });
+    if (selectedCard) {
+      sendMessage('admin-verify-winner', { cardId: selectedCard.card.id });
     }
-  }, [socket, selectedCard]);
+  }, [sendMessage, selectedCard]);
 
   // Login form - SECURITY: Requires wallet + password
   if (!isAuthenticated) {
@@ -322,9 +422,14 @@ function Admin() {
     <div className="container admin">
       <header className="admin-header">
         <h1>Panel de Administrador</h1>
-        <button onClick={handleLogout} className="btn-logout">
-          Cerrar Sesión
-        </button>
+        <div className="header-right">
+          <span className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+            {isConnected ? '● Conectado' : '○ Desconectado'}
+          </span>
+          <button onClick={handleLogout} className="btn-logout">
+            Cerrar Sesión
+          </button>
+        </div>
       </header>
 
       {/* Game Status */}
@@ -341,7 +446,7 @@ function Admin() {
             <button
               onClick={startGame}
               className="btn-primary btn-control"
-              disabled={controlsLoading.start}
+              disabled={controlsLoading.start || !isConnected}
             >
               {controlsLoading.start ? 'Iniciando...' : 'Iniciar Bingo'}
             </button>
@@ -351,14 +456,14 @@ function Admin() {
               <button
                 onClick={pauseGame}
                 className="btn-control btn-warning"
-                disabled={controlsLoading.pause}
+                disabled={controlsLoading.pause || !isConnected}
               >
                 {controlsLoading.pause ? 'Pausando...' : 'Pausar'}
               </button>
               <button
                 onClick={endGame}
                 className="btn-control btn-danger"
-                disabled={controlsLoading.end}
+                disabled={controlsLoading.end || !isConnected}
               >
                 {controlsLoading.end ? 'Terminando...' : 'Terminar'}
               </button>
@@ -369,14 +474,14 @@ function Admin() {
               <button
                 onClick={resumeGame}
                 className="btn-primary btn-control"
-                disabled={controlsLoading.resume}
+                disabled={controlsLoading.resume || !isConnected}
               >
                 {controlsLoading.resume ? 'Reanudando...' : 'Reanudar'}
               </button>
               <button
                 onClick={endGame}
                 className="btn-control btn-danger"
-                disabled={controlsLoading.end}
+                disabled={controlsLoading.end || !isConnected}
               >
                 {controlsLoading.end ? 'Terminando...' : 'Terminar'}
               </button>
@@ -386,7 +491,7 @@ function Admin() {
             <button
               onClick={startGame}
               className="btn-primary btn-control"
-              disabled={controlsLoading.start}
+              disabled={controlsLoading.start || !isConnected}
             >
               {controlsLoading.start ? 'Iniciando...' : 'Nuevo Juego'}
             </button>
@@ -413,7 +518,7 @@ function Admin() {
           <button
             onClick={callRandomNumber}
             className="btn-primary btn-random"
-            disabled={availableNumbers.length === 0 || controlsLoading.callNumber}
+            disabled={availableNumbers.length === 0 || controlsLoading.callNumber || !isConnected}
           >
             {controlsLoading.callNumber ? 'Cantando...' : 'Cantar Numero Aleatorio'}
           </button>
@@ -431,7 +536,7 @@ function Admin() {
                 key={num}
                 onClick={() => !isCalled && callNumber(num)}
                 className={`number-btn ${isCalled ? 'called' : ''} ${num === currentNumber ? 'current' : ''}`}
-                disabled={isCalled || status !== 'playing'}
+                disabled={isCalled || status !== 'playing' || !isConnected}
               >
                 {num}
               </button>
@@ -544,6 +649,7 @@ function Admin() {
                   <button
                     onClick={handleVerifySelectedCard}
                     className="btn-primary btn-verify-winner"
+                    disabled={!isConnected}
                   >
                     Verificar y Declarar Ganador
                   </button>
