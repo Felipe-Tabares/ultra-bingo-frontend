@@ -209,23 +209,48 @@ function generateNonce() {
  * Firma una autorización de pago usando EIP-3009 (TransferWithAuthorization)
  */
 export async function signPaymentAuthorization(paymentInfo, amount) {
-  const client = await ensureWalletClient();
+  console.log('[x402] Iniciando firma de autorización...');
+
+  let client;
+  try {
+    client = await ensureWalletClient();
+  } catch (err) {
+    console.error('[x402] Error obteniendo wallet client:', err);
+    throw new Error('No se pudo conectar con la wallet: ' + err.message);
+  }
 
   if (!client.account) {
+    console.error('[x402] No hay cuenta en el wallet client');
     throw new Error('Wallet account not available');
   }
 
   const address = client.account.address;
   const chain = getChain();
+  console.log('[x402] Dirección de wallet:', address);
+  console.log('[x402] Chain objetivo:', chain.name, '(', chain.id, ')');
 
   // Verificar que la wallet esté en la red correcta antes de firmar
-  const currentChainId = await window.ethereum.request({
-    method: 'eth_chainId',
-  });
+  let currentChainId;
+  try {
+    currentChainId = await window.ethereum.request({
+      method: 'eth_chainId',
+    });
+  } catch (err) {
+    console.error('[x402] Error obteniendo chainId:', err);
+    throw new Error('No se pudo obtener la red actual de la wallet');
+  }
+
   const currentChainIdNum = parseInt(currentChainId, 16);
+  console.log('[x402] Chain actual:', currentChainIdNum);
 
   if (currentChainIdNum !== chain.id) {
-    await switchToCorrectNetwork();
+    console.log('[x402] Cambiando a red correcta...');
+    try {
+      await switchToCorrectNetwork();
+    } catch (err) {
+      console.error('[x402] Error cambiando de red:', err);
+      throw new Error('No se pudo cambiar a la red ' + chain.name);
+    }
 
     // Reinicializar walletClient con la nueva red
     walletClient = createWalletClient({
@@ -233,6 +258,7 @@ export async function signPaymentAuthorization(paymentInfo, amount) {
       chain: chain,
       transport: custom(window.ethereum),
     });
+    console.log('[x402] Wallet client reinicializado para nueva red');
   }
 
   // Tiempos de validez
@@ -284,15 +310,33 @@ export async function signPaymentAuthorization(paymentInfo, amount) {
     nonce: authorizationNonce,
   };
 
+  console.log('[x402] Preparando firma EIP-712:');
+  console.log('[x402]   Domain:', domain);
+  console.log('[x402]   From:', address);
+  console.log('[x402]   To:', recipient);
+  console.log('[x402]   Value:', amount.toString());
+
   // Firmar con EIP-712
   const signingClient = walletClient || client;
-  const signature = await signingClient.signTypedData({
-    account: signingClient.account,
-    domain,
-    types,
-    primaryType: 'TransferWithAuthorization',
-    message,
-  });
+  console.log('[x402] Solicitando firma a la wallet (MetaMask debería abrirse)...');
+
+  let signature;
+  try {
+    signature = await signingClient.signTypedData({
+      account: signingClient.account,
+      domain,
+      types,
+      primaryType: 'TransferWithAuthorization',
+      message,
+    });
+    console.log('[x402] Firma obtenida:', signature.substring(0, 20) + '...');
+  } catch (signErr) {
+    console.error('[x402] Error al firmar:', signErr);
+    if (signErr.code === 4001 || signErr.message?.includes('rejected') || signErr.message?.includes('denied')) {
+      throw new Error('User rejected the signature request');
+    }
+    throw signErr;
+  }
 
   // Construir el payload x402 v1 (compatible con uvd-x402-sdk)
   const paymentPayload = {
@@ -312,6 +356,7 @@ export async function signPaymentAuthorization(paymentInfo, amount) {
     },
   };
 
+  console.log('[x402] Payload de pago construido exitosamente');
   return paymentPayload;
 }
 
@@ -338,8 +383,11 @@ export async function createPaymentFetch() {
 
   // Retornar un fetch wrapper que maneja 402 automáticamente
   return async (input, init) => {
+    console.log('[x402] Iniciando petición a:', input);
+
     // Primera petición sin header de pago
     const firstResponse = await fetch(input, init);
+    console.log('[x402] Primera respuesta status:', firstResponse.status);
 
     // Si no es 402, retornar la respuesta directamente
     if (firstResponse.status !== 402) {
@@ -350,7 +398,9 @@ export async function createPaymentFetch() {
     let x402Data;
     try {
       x402Data = await firstResponse.json();
+      console.log('[x402] Datos de pago recibidos:', x402Data);
     } catch (error) {
+      console.error('[x402] Error leyendo datos de pago:', error);
       throw new Error('No se pudo leer la información de pago del servidor');
     }
 
@@ -358,26 +408,45 @@ export async function createPaymentFetch() {
     const paymentInfo = x402Data.paymentInfo || x402Data.accepts?.[0];
 
     if (!paymentInfo) {
+      console.error('[x402] No se encontró paymentInfo en:', x402Data);
       throw new Error('El servidor no proporcionó información de pago válida');
     }
 
     // Convertir el monto (ya viene en unidades atómicas)
     const amount = BigInt(paymentInfo.amount || paymentInfo.maxAmountRequired);
+    console.log('[x402] Monto a pagar:', amount.toString(), '(', Number(amount) / 1_000_000, 'USDC)');
 
     // Firmar la autorización de pago - esto abre la wallet para que el usuario confirme
-    const paymentPayload = await signPaymentAuthorization(paymentInfo, amount);
+    console.log('[x402] Solicitando firma al usuario...');
+    let paymentPayload;
+    try {
+      paymentPayload = await signPaymentAuthorization(paymentInfo, amount);
+      console.log('[x402] Firma obtenida exitosamente');
+    } catch (signError) {
+      console.error('[x402] Error en firma:', signError);
+      throw signError;
+    }
 
     // Codificar el payload para el header X-Payment
     const paymentHeader = encodePaymentHeader(paymentPayload);
+    console.log('[x402] Header X-PAYMENT preparado, longitud:', paymentHeader.length);
 
     // Segunda petición con header de pago x402 v1
     const newHeaders = new Headers(init?.headers);
     newHeaders.set('X-PAYMENT', paymentHeader);
 
+    console.log('[x402] Enviando segunda petición con pago...');
     const secondResponse = await fetch(input, {
       ...init,
       headers: newHeaders,
     });
+    console.log('[x402] Segunda respuesta status:', secondResponse.status);
+
+    // Si la segunda respuesta también es 402, loguear el error
+    if (secondResponse.status === 402) {
+      const errorBody = await secondResponse.clone().json().catch(() => ({}));
+      console.error('[x402] Pago rechazado por el servidor:', errorBody);
+    }
 
     return secondResponse;
   };

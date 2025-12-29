@@ -123,7 +123,11 @@ function Home() {
       });
 
       if (response.status === 402) {
-        setError(`Pago rechazado o fallido. Por favor intenta de nuevo.`);
+        // La segunda petición también devolvió 402, el facilitator rechazó el pago
+        const errorBody = await response.json().catch(() => ({}));
+        console.error('[Purchase] Pago rechazado:', errorBody);
+        const errorMsg = errorBody.error || errorBody.message || 'Pago rechazado por el facilitator';
+        setError(`Pago fallido: ${errorMsg}`);
         return;
       }
 
@@ -144,14 +148,20 @@ function Home() {
       setTimeout(() => setPaymentStatus(null), 3000);
     } catch (err) {
       clearTimeout(timeoutId);
+      console.error('[Purchase] Error completo:', err);
+
+      const errMsg = err.message?.toLowerCase() || '';
+
       if (err.name === 'AbortError') {
         setError('La operación tardó demasiado. Por favor intenta de nuevo.');
-      } else if (err.message.includes('rejected') || err.message.includes('denied') || err.message.includes('User rejected')) {
+      } else if (errMsg.includes('rejected') || errMsg.includes('denied') || errMsg.includes('user rejected') || err.code === 4001) {
         setError('Transacción rechazada por el usuario');
-      } else if (err.message.includes('Wallet not connected') || err.message.includes('not connected')) {
+      } else if (errMsg.includes('wallet not connected') || errMsg.includes('not connected') || errMsg.includes('no accounts')) {
         setError('Wallet no conectada. Por favor conecta tu wallet.');
-      } else if (err.message.includes('network') || err.message.includes('chain')) {
+      } else if (errMsg.includes('network') || errMsg.includes('chain') || errMsg.includes('wrong network')) {
         setError('Red incorrecta. Por favor cambia a Avalanche.');
+      } else if (errMsg.includes('insufficient') || errMsg.includes('balance')) {
+        setError('Saldo USDC insuficiente para completar la compra.');
       } else {
         setError(`Error: ${err.message}`);
       }
