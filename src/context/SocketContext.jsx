@@ -41,8 +41,12 @@ export function SocketProvider({ children }) {
   // Handle incoming WebSocket messages
   const handleMessage = useCallback((event) => {
     try {
-      const data = JSON.parse(event.data);
-      const { type, payload } = data;
+      const message = JSON.parse(event.data);
+      const { type } = message;
+      // Backend sends 'data', support both 'data' and 'payload' for compatibility
+      const payload = message.data || message.payload || {};
+
+      console.log('WebSocket message received:', type, payload);
 
       switch (type) {
         case 'game-state':
@@ -58,7 +62,7 @@ export function SocketProvider({ children }) {
           setGameState((prev) => ({
             ...prev,
             currentNumber: payload.number,
-            calledNumbers: [...(prev?.calledNumbers || []), payload.number],
+            calledNumbers: payload.calledNumbers || [...(prev?.calledNumbers || []), payload.number],
           }));
           break;
 
@@ -168,7 +172,7 @@ export function SocketProvider({ children }) {
           break;
 
         default:
-          console.log('Unknown message type:', type);
+          console.log('Unknown message type:', type, payload);
       }
     } catch (e) {
       console.error('Error parsing WebSocket message:', e);
